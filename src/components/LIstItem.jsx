@@ -7,30 +7,20 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Checkbox from "@mui/material/Checkbox";
 import ListItem from "@mui/material/ListItem";
 
-class ListItems extends Component {
-  
-
-  render() {
-    const {task, updateEditStatus, removeTask} = this.props
-    return (
-        <ListItem key={task.id}>
-              <ListItemAvatar>
-                <Checkbox />
-              </ListItemAvatar>
-              <ListItemText primary={task.text} />
-              <IconButton onClick={() => updateEditStatus(task.id)}>
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => removeTask(task.id)}
-                edge="end"
-                aria-label="delete"
-              >
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-    );
-  }
+export default function ListItems({ task, updateEditStatus, removeTask }) {
+  return (
+    <ListItem>
+      <ListItemText primary={task.text} />
+      <IconButton onClick={() => updateEditStatus(task.id)}>
+        <EditIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => removeTask(task.id)}
+        edge="end"
+        aria-label="delete"
+      >
+        <DeleteIcon />
+      </IconButton>
+    </ListItem>
+  );
 }
-
-export default ListItems;

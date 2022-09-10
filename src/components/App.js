@@ -1,125 +1,86 @@
-import React, { Component } from "react";
-import Overview from "./Overview";
+import React, {useState, useReducer} from "react";
+import reducer from '../utils/reducer'
+import Title from "./Title";
+import Form from "./Form";
+import TaskList from "./TaskList";
 import uniqid from "uniqid";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-import Box from "@mui/material/Box";
+const App = () => {
+  
+  const initialState = {
+  task: {
+            text: "",
+            id: null,
+            editStatus: false,
+          },
+  list: [],
+  newText: ""
+}
 
-class App extends Component {
-  constructor() {
-    super();
+const [store, dispatch] = useReducer(reducer, initialState)
+const {task,list, newText} = store
 
-    this.state = {
-      task: {
-        text: "",
-        id: null,
-        editStatus: false,
-      },
-      newText: "",
-      tasks: [],
-    };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.removeTask = this.removeTask.bind(this);
+const setTask = (text) =>{
+  dispatch({
+    type: 'setTask',
+    payload: text,
+    
+  })
   }
 
-  handleChange(event) {
-    this.setState({
-      task: { text: event.target.value, id: uniqid() },
-    });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.setState({
-      tasks: this.state.tasks.concat(this.state.task),
-      task: { text: "" },
-    });
-  }
-
-  removeTask(id) {
-    this.setState((prevState) => {
-      return { tasks: prevState.tasks.filter((task) => task.id !== id) };
-    });
-  }
-
-  updateEditStatus = (id) => {
-    this.setState((prevState) => {
-      const updatedTasks = prevState.tasks.map((task) => {
-        return task.id === id
-          ? task.editStatus
-            ? { ...task, editStatus: false }
-            : { ...task, editStatus: true }
-          : task;
-      });
-      return { tasks: updatedTasks };
-    });
-  };
-
-  updateEditedTaskOnSubmit = (event, id) => {
-    event.preventDefault();
-    this.setState((prevState) =>{
-      const editedTasks = prevState.tasks.map((task)=>{
-       return task.id === id ? {text: this.state.newText, id: task.id ,editStatus:false} : task
-      })
-     return {tasks: editedTasks, newText: " "}
+  const handleSubmit = (event) =>{
+    event.preventDefault()
+    dispatch({
+      type: 'addTaskToList',
+      payload: task,
     })
-   
-  };
 
-  updateTaskText = (event) => {
-    this.setState({
-      newText: event.target.value,
-    })
-  };
-
-  render() {
-    const { task, tasks, newText} = this.state;
-    return (
-      <Container maxWidth="sm">
-        <Box sx={{ my: 4 }}>
-          <Grid container justifyContent="center">
-            <Typography variant="h4" component="h1" gutterBottom>
-              Enter a Task:
-            </Typography>
-          </Grid>
-        </Box>
-        <form onSubmit={this.handleSubmit}>
-          <TextField
-            size="small"
-            fullWidth
-            type="text"
-            value={task.text}
-            onChange={this.handleChange}
-          />
-          <Grid container justifyContent="flex-end">
-            <Button
-              sx={{ margin: 1 }}
-              variant="contained"
-              type="submit"
-              value="submit"
-            >
-              {" "}
-              Submit
-            </Button>
-          </Grid>
-        </form>
-        <Overview
-          tasks={tasks}
-          newText={newText}
-          removeTask={this.removeTask}
-          updateEditStatus={this.updateEditStatus}
-          updateTaskText={this.updateTaskText}
-          updateEditedTaskOnSubmit={this.updateEditedTaskOnSubmit}
-        />
-      </Container>
-    );
   }
+
+   const removeTask = (id) =>{
+   dispatch({
+    type: 'deleteTask',
+    payload: id
+   })
+ }
+
+ const updateEditStatus = (id) =>{
+ dispatch({
+  type: 'updateEditStatus',
+  payload: id
+ })
+
+ }
+
+const updateTaskText = (text) => {
+dispatch({
+  type: 'updateTaskText',
+  payload: text
+})
+}
+
+const updateList = (event, id) => {
+ event.preventDefault()
+dispatch({
+  type: 'updateList',
+  payload: id
+})
+ }
+  
+  return (
+    <>
+    <Container maxWidth="sm" >
+    <Title/>
+   <Form task={task} setTask={setTask} handleSubmit={handleSubmit} />
+   <TaskList list={list} removeTask={removeTask} updateEditStatus={updateEditStatus} updateTaskText={updateTaskText} updateList={updateList} newText={newText} /> 
+   </Container>
+    </>
+  )
 }
 
 export default App;
