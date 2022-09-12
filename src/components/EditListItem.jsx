@@ -11,7 +11,7 @@ export default function EditListItem({currentTask, newText, updateTaskText, upda
     }
 
   return (
-    <ListItem>
+    <ListItem fullWidth>
         <form onSubmit={(event) => updateList(event, currentTask.id)}>
         <TextField size="small" fullWidth value={newText} onChange={handleNewText} />
         <Button sx={{margin: 1}}  variant="contained" type="submit" value="submit" > Submit</Button>

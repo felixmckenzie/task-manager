@@ -9,7 +9,7 @@ import ListItem from "@mui/material/ListItem";
 
 export default function ListItems({ task, updateEditStatus, removeTask }) {
   return (
-    <ListItem>
+    <ListItem sx={{border: '1px solid grey', borderRadius: '2', marginBottom: '8px'  }}>
       <ListItemText primary={task.text} />
       <IconButton onClick={() => updateEditStatus(task.id)}>
         <EditIcon />

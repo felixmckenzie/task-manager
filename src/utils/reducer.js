@@ -17,21 +17,25 @@ export default function reducer(state, action) {
     case "updateEditStatus": {
       const updatedList = state.list.map((task) => {
         return task.id === action.payload
-          ? { ...task, editStatus: true } : task;
+          ? { ...task, editStatus: true }
+          : task;
       });
 
-         return { ...state, list: updatedList };
-    }
-    case "updateTaskText":{
-        return {...state, newText: action.payload}
-    }
-    case "updateList":{
-        const editedList = state.list.map((task)=>{
-            return task.id === action.payload ? {...task, text: state.newText, editStatus: false} : task
-        });
+      let taskToEdit = updatedList.find((task) => task.id === action.payload);
 
-        return {...state, list: editedList, newText: ""}
+      return { ...state, list: updatedList, newText: taskToEdit.text };
+    }
+    case "updateTaskText": {
+      return { ...state, newText: action.payload };
+    }
+    case "updateList": {
+      const editedList = state.list.map((task) => {
+        return task.id === action.payload
+          ? { ...task, text: state.newText, editStatus: false }
+          : task;
+      });
+
+      return { ...state, list: editedList, newText: "" };
     }
   }
 }
-

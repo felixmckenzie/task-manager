@@ -5,7 +5,7 @@ import EditListItem from "./EditListItem";
 
 export default function TaskList({list, removeTask, updateEditStatus, newText, updateTaskText, updateList}) {
   return (
-    <List>
+    <List sx={{padding: '10px', margin:'10px'}}>
       {list.map((task) => {
         return (
           <>
