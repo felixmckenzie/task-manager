@@ -1,9 +1,8 @@
-import uniqid from "uniqid";
 
 export default function reducer(state, action) {
   switch (action.type) {
     case "setTask": {
-      return { ...state, task: { text: action.payload, id: uniqid() } };
+      return { ...state, task: action.payload};
     }
     case "addTaskToList": {
       return { ...state, list: [...state.list, action.payload] };

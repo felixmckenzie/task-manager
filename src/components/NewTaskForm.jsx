@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-export default function Form({task, handleSubmit, setTask}) {
+export default function NewTaskForm({task, handleSubmit, setTask}) {
  
 const handleChange = (event) => {
     setTask(event.target.value)

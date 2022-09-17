@@ -1,33 +1,22 @@
-import React, { useState, useReducer } from "react";
+import React, {useReducer} from "react";
 import reducer from "../utils/reducer";
 import Title from "./Title";
-import Form from "./Form";
+import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
+import NavBar from "./NavBar";
 import uniqid from "uniqid";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider} from "@mui/material/styles";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#ff0266",
-      light: "#ffddc1",
-      dark: "#c97b63",
-    },
-    secondary: {
-      main: "#ffde03",
-      light: "#fffffb",
-      dark: "#a69b967",
-    },
-  },
-});
+import Grid from '@mui/material/Grid';
+import Typography from "@mui/material/Typography";
+import { CustomThemeProvider} from "../utils/ThemeContext";
+import Layout from "./Layout";
 
 const App = () => {
   const initialState = {
     task: {
       text: "",
       id: null,
-      editStatus: false,
+      editStatus: null,
     },
     list: [],
     newText: "",
@@ -35,11 +24,15 @@ const App = () => {
 
   const [store, dispatch] = useReducer(reducer, initialState);
   const { task, list, newText } = store;
+  
+  
+
 
   const setTask = (text) => {
+   const task = {text: text, id: uniqid(), editStatus: false}
     dispatch({
       type: "setTask",
-      payload: text,
+      payload: task,
     });
   };
 
@@ -48,6 +41,11 @@ const App = () => {
     dispatch({
       type: "addTaskToList",
       payload: task,
+    });
+
+    dispatch({
+      type: "setTask",
+      payload: initialState.task,
     });
   };
 
@@ -80,12 +78,26 @@ const App = () => {
     });
   };
 
+  
   return (
-    <>
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="sm" sx={{backgroundColor: 'secondary.main', padding:'10px', marginTop:'20px'}}>
+    
+    <CustomThemeProvider>
+    <Layout>
+    <NavBar/>
+    <Container maxWidth="sm" sx={{ padding:'10px', marginTop:'20px'}}>
         <Title />
-        <Form task={task} setTask={setTask} handleSubmit={handleSubmit} />
+     <NewTaskForm task={task} setTask={setTask} handleSubmit={handleSubmit} />
+    </Container>
+    <Grid container spacing={3} style={{justifyContent:"center", marginTop:"20px"}}  >
+     <Grid item xs={4}  style={{paddingLeft:"0", paddingRight:"0", minHeight:"400px" }}  >
+     <Typography
+          component="h2"
+          variant="h5"
+          color="inherit"
+          align="center"
+          noWrap
+          sx={{ flex: 1 }}
+        >Today</Typography>
         <TaskList
           list={list}
           removeTask={removeTask}
@@ -94,9 +106,11 @@ const App = () => {
           updateList={updateList}
           newText={newText}
         />
-      </Container>
-      </ThemeProvider>
-    </>
+        </Grid>
+       </Grid>
+       </Layout>
+       </CustomThemeProvider>
+    
   );
 };
 
