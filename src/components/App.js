@@ -6,8 +6,6 @@ import TaskList from "./TaskList";
 import NavBar from "./NavBar";
 import uniqid from "uniqid";
 import Container from "@mui/material/Container";
-import Grid from '@mui/material/Grid';
-import Typography from "@mui/material/Typography";
 import { CustomThemeProvider} from "../utils/ThemeContext";
 import Layout from "./Layout";
 
@@ -88,16 +86,6 @@ const App = () => {
         <Title />
      <NewTaskForm task={task} setTask={setTask} handleSubmit={handleSubmit} />
     </Container>
-    <Grid container spacing={3} style={{justifyContent:"center", marginTop:"20px"}}  >
-     <Grid item xs={4}  style={{paddingLeft:"0", paddingRight:"0", minHeight:"400px" }}  >
-     <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          sx={{ flex: 1 }}
-        >Today</Typography>
         <TaskList
           list={list}
           removeTask={removeTask}
@@ -106,8 +94,6 @@ const App = () => {
           updateList={updateList}
           newText={newText}
         />
-        </Grid>
-       </Grid>
        </Layout>
        </CustomThemeProvider>
     

@@ -16,7 +16,7 @@ export default function reducer(state, action) {
     case "updateEditStatus": {
       const updatedList = state.list.map((task) => {
         return task.id === action.payload
-          ? { ...task, editStatus: true }
+          ? { ...task, editStatus: !task.editStatus }
           : task;
       });
 

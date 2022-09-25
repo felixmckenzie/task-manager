@@ -52,6 +52,7 @@ const {removeTask, updateEditStatus, newText, updateTaskText, updateList} = prop
           {" "}
           Submit
         </Button>
+        <Button sx={{ margin: 1 }} variant="contained" onClick={() => updateEditStatus(currentTask.id)}>Cancel</Button>
       </form>
     </ListItem>
   );
