@@ -1,5 +1,6 @@
 import React, {useReducer} from "react";
 import reducer from "../utils/reducer";
+import {loadState, saveState} from "../utils/local-storage";
 import Title from "./Title";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
@@ -9,10 +10,17 @@ import { CustomThemeProvider} from "../utils/ThemeContext";
 import Layout from "./Layout";
 
 const App = () => {
-  const initialState = {
+let initialState = loadState()
+
+if(initialState === undefined){
+  initialState = {
     list: [],
     newText: "",
   };
+}
+
+saveState(initialState)
+   
 
   const [store, dispatch] = useReducer(reducer, initialState);
   const {list, newText } = store;

@@ -1,15 +1,21 @@
+import { saveState } from "./local-storage";
+
 
 export default function reducer(state, action) {
   switch (action.type) {
     
     case "addTaskToList": {
-      return { ...state, list: [...state.list, action.payload] };
+      const newState = { ...state, list: [...state.list, action.payload] };
+      saveState(newState)
+      return newState
     }
     case "deleteTask": {
-      return {
+      const newState = {
         ...state,
         list: state.list.filter((task) => task.id !== action.payload),
       };
+      saveState(newState)
+      return newState
     }
     case "updateIsEditing": {
       const updatedList = state.list.map((task) => {
@@ -18,12 +24,16 @@ export default function reducer(state, action) {
           : task;
       });
 
-      let taskToEdit = updatedList.find((task) => task.id === action.payload);
+      const taskToEdit = updatedList.find((task) => task.id === action.payload);
 
-      return { ...state, list: updatedList, newText: taskToEdit.text };
+    const  newState = { ...state, list: updatedList, newText: taskToEdit.text };
+      saveState(newState);
+      return newState
     }
     case "updateTaskText": {
-      return { ...state, newText: action.payload };
+      const newState = { ...state, newText: action.payload };
+      saveState(newState)
+      return newState
     }
     case "updateList": {
       const editedList = state.list.map((task) => {
@@ -32,7 +42,12 @@ export default function reducer(state, action) {
           : task;
       });
 
-      return { ...state, list: editedList, newText: "" };
+      const newState = { ...state, list: editedList, newText: "" };
+      saveState(newState)
+      return newState
     }
+    default:
+      return state
   }
+ 
 }
