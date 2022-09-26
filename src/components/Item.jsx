@@ -19,7 +19,7 @@ const {removeTask, updateIsEditing, newText, updateTaskText, updateList} = props
     <ListItem
       sx={{ borderTop: "1px solid lightgrey",borderBottom: "1px solid lightgrey" ,borderRadius: "2", marginBottom: "8px", marginLeft:"auto", marginRight:"auto"}}
     >
-      <ListItemText primary={currentTask.text} secondary={currentTask.status} />
+      <ListItemText primary={currentTask.text} secondary={`status: ${currentTask.status}`} />
       <IconButton onClick={() => updateIsEditing(currentTask.id)}>
         <EditIcon />
       </IconButton>
