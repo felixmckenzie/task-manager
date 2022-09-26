@@ -1,9 +1,7 @@
 
 export default function reducer(state, action) {
   switch (action.type) {
-    case "setTask": {
-      return { ...state, task: action.payload};
-    }
+    
     case "addTaskToList": {
       return { ...state, list: [...state.list, action.payload] };
     }
@@ -13,10 +11,10 @@ export default function reducer(state, action) {
         list: state.list.filter((task) => task.id !== action.payload),
       };
     }
-    case "updateEditStatus": {
+    case "updateIsEditing": {
       const updatedList = state.list.map((task) => {
         return task.id === action.payload
-          ? { ...task, editStatus: !task.editStatus }
+          ? { ...task, isEditing: !task.isEditing }
           : task;
       });
 
@@ -30,7 +28,7 @@ export default function reducer(state, action) {
     case "updateList": {
       const editedList = state.list.map((task) => {
         return task.id === action.payload
-          ? { ...task, text: state.newText, editStatus: false }
+          ? { ...task, text: state.newText, isEditing: false }
           : task;
       });
 

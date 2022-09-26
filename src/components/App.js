@@ -4,46 +4,23 @@ import Title from "./Title";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 import NavBar from "./NavBar";
-import uniqid from "uniqid";
 import Container from "@mui/material/Container";
 import { CustomThemeProvider} from "../utils/ThemeContext";
 import Layout from "./Layout";
 
 const App = () => {
   const initialState = {
-    task: {
-      text: "",
-      id: null,
-      editStatus: null,
-    },
     list: [],
     newText: "",
   };
 
   const [store, dispatch] = useReducer(reducer, initialState);
-  const { task, list, newText } = store;
+  const {list, newText } = store;
   
-  
-
-
-  const setTask = (text) => {
-   const task = {text: text, id: uniqid(), editStatus: false}
-    dispatch({
-      type: "setTask",
-      payload: task,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const addTaskToList = (task) => {
     dispatch({
       type: "addTaskToList",
       payload: task,
-    });
-
-    dispatch({
-      type: "setTask",
-      payload: initialState.task,
     });
   };
 
@@ -54,9 +31,9 @@ const App = () => {
     });
   };
 
-  const updateEditStatus = (id) => {
+  const updateIsEditing = (id) => {
     dispatch({
-      type: "updateEditStatus",
+      type: "updateIsEditing",
       payload: id,
     });
   };
@@ -84,12 +61,12 @@ const App = () => {
     <NavBar/>
     <Container maxWidth="sm" sx={{ padding:'10px', marginTop:'20px'}}>
         <Title />
-     <NewTaskForm task={task} setTask={setTask} handleSubmit={handleSubmit} />
+     <NewTaskForm addTaskToList={addTaskToList}  />
     </Container>
         <TaskList
           list={list}
           removeTask={removeTask}
-          updateEditStatus={updateEditStatus}
+          updateIsEditing={updateIsEditing}
           updateTaskText={updateTaskText}
           updateList={updateList}
           newText={newText}

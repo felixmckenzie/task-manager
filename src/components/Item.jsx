@@ -3,13 +3,12 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
 import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 export default function Item({currentTask, props}) {
-const {removeTask, updateEditStatus, newText, updateTaskText, updateList} = props
+const {removeTask, updateIsEditing, newText, updateTaskText, updateList} = props
   
   
   const handleNewText = (event) => {
@@ -20,8 +19,8 @@ const {removeTask, updateEditStatus, newText, updateTaskText, updateList} = prop
     <ListItem
       sx={{ borderTop: "1px solid lightgrey",borderBottom: "1px solid lightgrey" ,borderRadius: "2", marginBottom: "8px", marginLeft:"auto", marginRight:"auto"}}
     >
-      <ListItemText primary={currentTask.text} />
-      <IconButton onClick={() => updateEditStatus(currentTask.id)}>
+      <ListItemText primary={currentTask.text} secondary={currentTask.status} />
+      <IconButton onClick={() => updateIsEditing(currentTask.id)}>
         <EditIcon />
       </IconButton>
       <IconButton
@@ -35,10 +34,10 @@ const {removeTask, updateEditStatus, newText, updateTaskText, updateList} = prop
   );
 
   const editingComponent = (
-    <ListItem fullWidth>
+    <ListItem>
       <form onSubmit={(event) => updateList(event, currentTask.id)}>
         <TextField
-          size="small"
+          size="large"
           fullWidth
           value={newText}
           onChange={handleNewText}
@@ -52,10 +51,10 @@ const {removeTask, updateEditStatus, newText, updateTaskText, updateList} = prop
           {" "}
           Submit
         </Button>
-        <Button sx={{ margin: 1 }} variant="contained" onClick={() => updateEditStatus(currentTask.id)}>Cancel</Button>
+        <Button sx={{ margin: 1 }} variant="contained" onClick={() => updateIsEditing(currentTask.id)}>Cancel</Button>
       </form>
     </ListItem>
   );
 
-  return <>{currentTask.editStatus ? editingComponent : textComponent}</>;
+  return <>{currentTask.isEditing ? editingComponent : textComponent}</>;
 }
