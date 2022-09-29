@@ -8,8 +8,8 @@ export default function NewTaskForm({ dispatch }) {
   const initialFormState = {
     text: "",
     id: null,
-    isEditing: null,
-    completed: null,
+    isEditing: false,
+    completed: false,
     created: null,
   };
 
@@ -26,10 +26,9 @@ export default function NewTaskForm({ dispatch }) {
   const handleChange = (event) => {
     const date = String(new Date());
     const newTask = {
+      ...initialFormState,
       text: event.target.value,
       id: uniqid(),
-      isEditing: false,
-      completed: false,
       created: date,
     };
     console.log(newTask);
