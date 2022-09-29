@@ -4,7 +4,7 @@ import List from "@mui/material/List";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-export default function TaskList({ list, ...allOtherProps }) {
+export default function TaskList({ list, newText ,dispatch }) {
   const [date, setDate] = useState()
 
 
@@ -30,7 +30,7 @@ export default function TaskList({ list, ...allOtherProps }) {
         <List sx={{ padding: "10px", margin: "10px" }}>
           {list.map((task) => {
             return (
-                <Item key={task.id} currentTask={task} props={allOtherProps} />
+                <Item key={task.id} currentTask={task} newText={newText} dispatch={dispatch} />
             );
           })}
         </List>

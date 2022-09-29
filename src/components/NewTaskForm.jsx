@@ -4,16 +4,24 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-export default function NewTaskForm({ addTaskToList }) {
+export default function NewTaskForm({ dispatch }) {
   const initialFormState = {
     text: "",
     id: null,
     isEditing: null,
-    status: null,
+    completed: null,
     created: null,
   };
 
   const [formData, setFormData] = useState(initialFormState);
+
+  const addTaskToList = (task) => {
+    dispatch({
+      type: "addTaskToList",
+      payload: task,
+    });
+  };
+
 
   const handleChange = (event) => {
     const date = String(new Date());
@@ -21,7 +29,7 @@ export default function NewTaskForm({ addTaskToList }) {
       text: event.target.value,
       id: uniqid(),
       isEditing: false,
-      status: "pending",
+      completed: false,
       created: date,
     };
     console.log(newTask);
